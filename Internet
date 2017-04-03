@@ -1,0 +1,81 @@
+/*
+A new town is being built far out in the country, and currently there are NN houses. People have already started moving in. 
+However, some of the houses aren’t connected to the internet yet, and naturally residents are outraged.
+The houses are numbered 11 to NN. House number 11 has already been connected to the internet via a long network cable to a neighboring town.
+The plan is to provide internet to other houses by connecting pairs of houses with separate network cables.
+A house is connected to the internet if it has a network cable to another house that’s already connected to the internet.
+Given a list of which pairs of houses are already connected by a network cable, determine which houses are not yet 
+connected to the internet.
+*/
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+class Internet
+{
+    public static void main (String[] args) throws java.lang.Exception
+    {
+        // your code goes here
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        UnionFind u = new UnionFind(n);
+        for(int i = 0; i < m; i++){
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+            
+            u.union(x - 1, y - 1);
+        }
+        int[] temp = u.getParent();
+        int firstHouse = temp[0];
+        //System.out.println(firstHouse);
+        for(int x : temp){
+            //System.out.println(x);
+        }
+        boolean wow = false;
+        for(int i = 1; i < n; i++){
+            if(firstHouse != temp[i]){
+                System.out.println(i + 1);
+                wow = true;
+            }
+        }
+        if(!wow){
+            System.out.println("Connected");
+        }
+    }
+}
+
+class UnionFind{
+    private int[] parent;
+    private int n;
+    public int find(int a){
+        if(parent[a] != a){
+            parent[a] = find(parent[a]);
+        }
+            return parent[a];
+    }
+    public void union(int a, int b){
+        if(a > b){
+            int temp = b;
+            b = a;
+            a = temp;
+        }
+        int aRoot = find(a);
+        int bRoot = find(b);
+        parent[bRoot] = aRoot; 
+    }
+    public UnionFind(int n){
+        parent = new int[n];
+        for(int i = 0; i < n; i++){
+            parent[i] = i;
+        }
+        this.n = n;
+    }
+    public int[] getParent(){
+        for(int i = 0; i < n; i++){
+            int dm = find(i);
+        }
+        return parent;
+    }
+}
